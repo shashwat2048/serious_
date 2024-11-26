@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Serious Website</title>
+    <style>
+        /* General Styles */
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+    background: #f4f4f9;
+    color: #333;
+    overflow: hidden;
+}
+
+header {
+    background: #0078d7;
+    color: #fff;
+    padding: 20px 0;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    margin: 0;
+}
+
+main {
+    padding: 20px;
+}
+
+button {
+    background: #ff4747;
+    color: #fff;
+    border: none;
+    padding: 15px 30px;
+    font-size: 18px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+button:hover {
+    transform: scale(1.1);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Celebration Styles */
+#celebration {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: black;
+    color: #fff;
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    flex-direction: column;
+}
+
+#celebration h2 {
+    font-size: 3em;
+    margin: 0;
+}
+
+#celebration h3 {
+    font-size: 2em;
+    margin: 20px 0 0;
+}
+
+/* Glow Effect for "Smile Please" */
+.glow {
+    color: #fff;
+    text-shadow: 0 0 10px #ff5733, 0 0 20px #ff5733, 0 0 30px #ff5733, 0 0 40px #ff5733, 0 0 50px #ff5733;
+    animation: glow-animation 1.5s ease-in-out infinite alternate;
+}
+
+@keyframes glow-animation {
+    from {
+        text-shadow: 0 0 10px #ff5733, 0 0 20px #ff5733, 0 0 30px #ff5733, 0 0 40px #ff5733, 0 0 50px #ff5733;
+    }
+    to {
+        text-shadow: 0 0 20px #ff5733, 0 0 30px #ff5733, 0 0 40px #ff5733, 0 0 60px #ff5733, 0 0 70px #ff5733;
+    }
+}
+
+/* Breathing Glow Effect for "Happy Birthday" */
+.breathing-glow {
+    color: #fff;
+    text-shadow: 0 0 10px #33ff57, 0 0 20px #33ff57, 0 0 30px #33ff57;
+    animation: breathing 2s infinite ease-in-out;
+}
+
+@keyframes breathing {
+    0% {
+        text-shadow: 0 0 10px #33ff57, 0 0 20px #33ff57, 0 0 30px #33ff57;
+    }
+    50% {
+        text-shadow: 0 0 30px #33ff57, 0 0 40px #33ff57, 0 0 50px #33ff57;
+    }
+    100% {
+        text-shadow: 0 0 10px #33ff57, 0 0 20px #33ff57, 0 0 30px #33ff57;
+    }
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+/* Confetti Canvas */
+#confettiCanvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+
+/* Responsive Design */
+@media screen and (max-width: 600px) {
+    h2 {
+        font-size: 2em;
+    }
+
+    h3 {
+        font-size: 1.5em;
+    }
+
+    button {
+        font-size: 16px;
+        padding: 10px 20px;
+    }
+}
+    </style>
+</head>
+<body>
+    <header id="main-header">
+        <h1>Welcome to the Serious Website</h1>
+    </header>
+    <main id="main-content">
+        <p>This website is meant for very serious purposes. Please don't click the button below unless you're ready for some serious consequences.</p>
+        <button id="fashyButton">Click Me</button>
+    </main>
+    <div id="celebration">
+        <h2 class="glow">Smile Please, You Stupid!</h2>
+        <h3 class="breathing-glow">🎉 Happy Birthday! 🎈</h3>
+        <canvas id="confettiCanvas"></canvas>
+    </div>
+    <script>// Hide celebration and set initial display to false
+        const celebration = document.getElementById("celebration");
+        celebration.hidden = true;
+        
+        // Add event listener to the button
+        document.getElementById("fashyButton").addEventListener("click", () => {
+            // Hide the main content and header
+            document.getElementById("main-header").style.display = "none";
+            document.getElementById("main-content").style.display = "none";
+        
+            // Show the celebration
+            celebration.hidden = false;
+            celebration.style.display = "flex";
+        
+            // Start confetti animation
+            launchConfetti();
+        });
+        
+        // Confetti animation
+        function launchConfetti() {
+            const canvas = document.getElementById("confettiCanvas");
+            const ctx = canvas.getContext("2d");
+        
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        
+            const confettiPieces = Array.from({ length: 300 }).map(() => ({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height - canvas.height,
+                size: Math.random() * 10 + 5,
+                color: `hsl(${Math.random() * 360}, 100%, 50%)`,
+                speed: Math.random() * 5 + 2,
+                angle: Math.random() * 2 * Math.PI,
+            }));
+        
+            function drawConfetti() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                confettiPieces.forEach((piece) => {
+                    ctx.fillStyle = piece.color;
+                    ctx.beginPath();
+                    ctx.arc(piece.x, piece.y, piece.size, 0, Math.PI * 2);
+                    ctx.fill();
+                    piece.y += piece.speed;
+                    piece.x += Math.sin(piece.angle) * 2;
+                    if (piece.y > canvas.height) piece.y = -piece.size;
+                });
+                requestAnimationFrame(drawConfetti);
+            }
+        
+            drawConfetti();
+        }
+        </script>
+</body>
+</html>
